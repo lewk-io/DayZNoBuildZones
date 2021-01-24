@@ -45,16 +45,16 @@ class NoBuildZonesSettings
     void SendWarningMessage( PlayerBase player )
     {
         string message = GetWarningMessage( player.GetNoBZDesc() );
-        if ( m_NoBuildZonesSettings.UseNotifications )
+        if ( UseNotifications )
         {
             #ifdef EXPANSIONMOD
             PlayerIdentity sender = player.GetIdentity();
             NotificationSystem.CreateNotification( new StringLocaliser( m_NoBuildZonesSettings.Prefix ), new StringLocaliser( message ), EXPANSION_NOTIFICATION_ICON_T_Compass, COLOR_EXPANSION_NOTIFICATION_ERROR, 7, sender );
             #else
-            player.Message( message, "colorImportant" );
+            player.Message( m_NoBuildZonesSettings.Prefix + " | " + message, "colorImportant" );
             #endif
         } else {
-            player.Message( message, "colorImportant" );
+            player.Message( m_NoBuildZonesSettings.Prefix + " | " + message, "colorImportant" );
         }
     }
 

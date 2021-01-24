@@ -25,6 +25,8 @@ modded class MissionServer
 				if ( !player ) continue;
                 if ( !player.IsAlive() ) continue;
 
+				if ( player.GetIsInNoBZ() ) player.SetIsInNoBZ( false );
+
 				for ( int j = 0; j < NoBZ().NoBuildZones.Count(); j++ )
 				{
 					float x = NoBZ().NoBuildZones.Get(j).X;
@@ -34,11 +36,8 @@ modded class MissionServer
 					if ( vector.Distance( player.GetPosition(), NoBZ_Location_Position ) <= NoBZ().NoBuildZones.Get(j).Radius )
 					{
 						if ( !player.GetIsInNoBZ() ) player.SetIsInNoBZ( true, NoBZ().NoBuildZones.Get(j).Name, NoBZ().NoBuildZones.Get(j).Description );
-					} else {
-						if ( player.GetIsInNoBZ() ) player.SetIsInNoBZ( false );
 					}
 				}
-
             }
         }
     }
