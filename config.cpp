@@ -2,7 +2,9 @@ class CfgPatches
 {
 	class NoBuildZones
 	{
-		requiredAddons[]={};
+		requiredAddons[]={
+			"JM_CF_Scripts"
+		};
 	};
 };
 class CfgMods
