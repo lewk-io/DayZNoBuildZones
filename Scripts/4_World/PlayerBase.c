@@ -24,7 +24,6 @@ modded class PlayerBase
         m_isInNoBZ = b;
         m_NoBZ_Name = name;
         m_NoBZ_Desc = desc;
-		SetSynchDirty();
     }
 
 	override void OnRPC( PlayerIdentity sender, int rpc_type, ParamsReadContext ctx )
@@ -33,10 +32,9 @@ modded class PlayerBase
 
         if ( GetGame().IsClient() && rpc_type == NOBUILDZONE.NOBZ_MESSAGE )
 		{
-            Print( m_isInNoBZ );
-            Print( m_NoBZ_Name );
-            Print( m_NoBZ_Desc );
-            string message = "[" + NoBuildZonesSettings.Prefix + "] " + NoBuildZonesSettings.GetWarningMessage( GetNoBZDesc() );
+            Param2<string, string> data;
+            if( !ctx.Read( data ) ) return;
+            string message = "[" + NoBuildZonesSettings.Prefix + "] " + NoBuildZonesSettings.GetWarningMessage( data.param2 );
             this.Message( message, "colorImportant" );
         }
     }

@@ -68,8 +68,9 @@ class NoBuildZonesSettings
 
     void SendChatMessage( PlayerBase player )
     {
+        Param2<string, string> NoBZVars = new Param2<string, string>( player.GetNoBZName(), player.GetNoBZDesc() );
         ScriptRPC rpc = new ScriptRPC();
-        rpc.Send( player, NOBUILDZONE.NOBZ_MESSAGE, true, player.GetIdentity() ) ;
+        GetGame().RPCSingleParam( player, NOBUILDZONE.NOBZ_MESSAGE, NoBZVars, true, player.GetIdentity() ) ;
     }
 
     bool ShouldUseNotifications()
