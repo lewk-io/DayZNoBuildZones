@@ -50,13 +50,21 @@ class NoBuildZonesSettings
         {
             if ( UseNotifications )
             {
-                #ifdef JM_COT
+                string icon = "DayZNoBuildZones/Data/NoBuildZoneIcon.edds";
                 PlayerIdentity sender = player.GetIdentity();
-                NotificationSystem.CreateNotification( new StringLocaliser( m_NoBuildZonesSettings.Prefix ), new StringLocaliser( message ), "DayZNoBuildZones/Data/NoBuildZoneIcon.edds", ARGB( 255, 231, 76, 60 ), 7, sender );
-                NotificationWasSent = false;
+                #ifdef JM_COT
+                if ( !NotificationWasSent )
+                {
+                    NotificationSystem.CreateNotification( new StringLocaliser( m_NoBuildZonesSettings.Prefix ), new StringLocaliser( message ), icon, ARGB( 255, 231, 76, 60 ), 7, sender );
+                    NotificationWasSent = false;
+                }
                 #endif
                 #ifdef VPPADMINTOOLS
-                // VPP notifications
+                if ( !NotificationWasSent && GetGame().IsClient() )
+                {
+                    VPPNotificationManager.SendMessage( new VPPMessageProps( m_NoBuildZonesSettings.Prefix, message, 5.0, 1.0, icon ), sender );
+                    NotificationWasSent = false;
+                }
                 #endif
                 if ( !NotificationWasSent ) SendChatMessage( player )
 
