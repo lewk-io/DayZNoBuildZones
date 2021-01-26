@@ -16,17 +16,26 @@ class CfgMods
 		author="@Lewk_io";
 		type="mod";
 		dependencies[]={
+			"Game",
 			"World",
 			"Mission"
 		};
 		class defs
 		{
+			class gameScriptModule
+			{
+				value="";
+				files[]=
+				{
+					"DayZNoBuildZones/Scripts/3_Game"
+				};
+			};
 			class worldScriptModule
 			{
 				value="";
 				files[]=
 				{
-					"DayZNoBuildZones/Scripts/4_World",
+					"DayZNoBuildZones/Scripts/4_World"
 				};
 			};
 			class missionScriptModule
@@ -34,7 +43,8 @@ class CfgMods
 				value="";
 				files[]=
 				{
-					"DayZNoBuildZones/Scripts/5_Mission",
+					"DayZNoBuildZones/Scripts/Common",
+					"DayZNoBuildZones/Scripts/5_Mission"
 				};
 			};
 		};

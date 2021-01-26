@@ -1,0 +1,4 @@
+enum NOBUILDZONE
+{
+	NOBZ_MESSAGE
+}

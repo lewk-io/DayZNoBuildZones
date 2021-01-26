@@ -24,8 +24,8 @@ class NoBuildZonesSettings
     bool EnableMessages = true;
     bool UseNotifications = true;
     float RefreshTimer = 1;
-    string Prefix = "NO BUILD ZONE";
-    string WarningMessage = "You are too close to $$0$$ to build.";
+    static string Prefix = "NO BUILD ZONE";
+    static string WarningMessage = "You are too close to $$0$$ to build.";
     ref array<string> IgnoredItems;
     ref array<ref NoBZ_Location> NoBuildZones;
 
@@ -35,27 +35,56 @@ class NoBuildZonesSettings
         NoBuildZones = new ref array<ref NoBZ_Location>;
     }
 
-    string GetWarningMessage( string Description = "" )
+    static string GetWarningMessage( string Description = "" )
     {
-        string WarningMessage = m_NoBuildZonesSettings.WarningMessage;
-        WarningMessage.Replace( "$$0$$", Description );
-        return WarningMessage;
+        string NewWarningMessage = m_NoBuildZonesSettings.WarningMessage;
+        NewWarningMessage.Replace( "$$0$$", Description );
+        return NewWarningMessage;
     }
 
     void SendWarningMessage( PlayerBase player )
     {
+        bool NotificationWasSent = false;
         string message = GetWarningMessage( player.GetNoBZDesc() );
         if ( EnableMessages )
         {
             if ( UseNotifications )
             {
+                #ifdef JM_COT
                 PlayerIdentity sender = player.GetIdentity();
                 NotificationSystem.CreateNotification( new StringLocaliser( m_NoBuildZonesSettings.Prefix ), new StringLocaliser( message ), "DayZNoBuildZones/Data/NoBuildZoneIcon.edds", ARGB( 255, 231, 76, 60 ), 7, sender );
+                NotificationWasSent = false;
+                #endif
+                #ifdef VPPADMINTOOLS
+                // VPP notifications
+                #endif
+                if ( !NotificationWasSent ) SendChatMessage( player )
+
             } else {
-                GetGame().GetMission().OnEvent(ChatMessageEventTypeID, new ChatMessageEventParams(CCSystem, "", m_NoBuildZonesSettings.Prefix + " | " + message, "colorImportant"));
-                GetGame().Chat( m_NoBuildZonesSettings.Prefix + " | " + message, "colorImportant" );
+                SendChatMessage( player );
             }
         }
+    }
+
+    void SendChatMessage( PlayerBase player )
+    {
+        ScriptRPC rpc = new ScriptRPC();
+        rpc.Send( player, NOBUILDZONE.NOBZ_MESSAGE, true, player.GetIdentity() ) ;
+    }
+
+    bool ShouldUseNotifications()
+    {
+        if ( UseNotifications )
+        {
+            #ifdef JM_COT
+            return UseNotifications;
+            #endif
+            #ifdef VPPADMINTOOLS
+            return UseNotifications;
+            #endif
+            return false;
+        }
+        return true;
     }
 
     vector NoBZLocationToVector( float x, float y )
