@@ -1,14 +1,11 @@
-class CfgPatches
-{
-	class NoBuildZones
-	{
-		requiredAddons[]={};
+class CfgPatches {
+	class NoBuildZones {
+		requiredAddons[]={"JM_CF_Scripts"};
 	};
 };
-class CfgMods
-{
-	class NoBuildZones
-	{
+
+class CfgMods {
+	class NoBuildZones {
 		dir="DayZNoBuildZones";
 		name="No Build Zones";
 		author="@Lewk_io";
@@ -18,30 +15,22 @@ class CfgMods
 			"World",
 			"Mission"
 		};
-		class defs
-		{
-			class gameScriptModule
-			{
+		class defs{
+			class gameScriptModule{
 				value="";
-				files[]=
-				{
+				files[]={
 					"DayZNoBuildZones/Scripts/3_Game"
 				};
 			};
-			class worldScriptModule
-			{
+			class worldScriptModule{
 				value="";
-				files[]=
-				{
+				files[]={
 					"DayZNoBuildZones/Scripts/4_World"
 				};
 			};
-			class missionScriptModule
-			{
+			class missionScriptModule{
 				value="";
-				files[]=
-				{
-					"DayZNoBuildZones/Scripts/Common",
+				files[]={
 					"DayZNoBuildZones/Scripts/5_Mission"
 				};
 			};

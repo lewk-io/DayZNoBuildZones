@@ -1,4 +1,3 @@
-enum NOBUILDZONE
-{
+enum NOBUILDZONE {
 	NOBZ_MESSAGE
 }
